@@ -1,0 +1,24 @@
+const fs=require('node:fs');
+const path=require('node:path');
+const runtime=path.join(process.env.USERPROFILE,'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules');
+const {chromium}=require(path.join(runtime,'playwright'));
+(async()=>{
+ const browser=await chromium.launch({channel:'msedge',headless:true});
+ const page=await browser.newPage({viewport:{width:1920,height:1068}});const errors=[];
+ page.on('pageerror',e=>errors.push(String(e)));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+ await page.goto('http://localhost:5173/',{waitUntil:'networkidle'});await page.evaluate(()=>document.fonts.ready);
+ await page.screenshot({path:'design/regulation-rendered.png',fullPage:true});
+ const assets=await page.evaluate(()=>[...document.images].map(i=>({src:i.getAttribute('src'),loaded:i.complete&&i.naturalWidth>0,width:i.getBoundingClientRect().width,height:i.getBoundingClientRect().height})));
+ const desktop=await page.evaluate(()=>({height:document.documentElement.scrollHeight,overflow:document.documentElement.scrollWidth>innerWidth,title:document.querySelector('h1').textContent,shield:{x:document.querySelector('.shield-frame').offsetLeft,y:document.querySelector('.shield-frame').offsetTop,width:document.querySelector('.shield-frame').offsetWidth,height:document.querySelector('.shield-frame').offsetHeight}}));
+ await page.getByRole('button',{name:'Open a Live Account',exact:true}).click();await page.getByRole('dialog').waitFor();await page.locator('input[type=email]').fill('demo@example.com');await page.locator('form button').click();const formPassed=await page.getByRole('status').isVisible();await page.getByLabel('关闭').click();
+ await page.getByRole('button',{name:'Trading',exact:true}).click();const menuPassed=await page.locator('.nav-dropdown').isVisible();await page.keyboard.press('Escape');
+ await page.setViewportSize({width:1440,height:900});await page.waitForFunction(()=>getComputedStyle(document.querySelector('main')).zoom==='0.75');const smallerDesktopOverflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+ await page.setViewportSize({width:390,height:844});await page.waitForFunction(()=>getComputedStyle(document.querySelector('main')).zoom==='1');await page.screenshot({path:'design/regulation-mobile.png',fullPage:true});const mobileOverflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+ await page.setViewportSize({width:1920,height:640});
+ await page.addStyleTag({content:'html{overflow-y:scroll}'});
+ await page.waitForFunction(()=>Math.abs(document.querySelector('main').getBoundingClientRect().width-Math.min(document.documentElement.clientWidth,1920))<1);
+ const shortWindow=await page.evaluate(()=>({viewport:innerWidth,availableWidth:document.documentElement.clientWidth,pageWidth:document.querySelector('main').getBoundingClientRect().width,overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth,headerBlur:getComputedStyle(document.querySelector('header')).backdropFilter}));
+ await page.screenshot({path:'design/regulation-short-window.png'});
+ const result={errors,desktop,smallerDesktopOverflow,mobileOverflow,shortWindow,formPassed,menuPassed,assets,brokenImages:assets.filter(i=>!i.loaded||!i.width||!i.height)};
+ fs.writeFileSync('design/verification.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));await browser.close();
+})();

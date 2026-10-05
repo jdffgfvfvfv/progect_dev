@@ -1,0 +1,76 @@
+{
+  "errors": [],
+  "desktop": {
+    "height": 1068,
+    "overflow": false,
+    "title": "Global Oversight. A Trading Environment Built on Trust.",
+    "shield": {
+      "x": 1138,
+      "y": 205,
+      "width": 669,
+      "height": 593
+    }
+  },
+  "smallerDesktopOverflow": false,
+  "mobileOverflow": false,
+  "shortWindow": {
+    "viewport": 1920,
+    "availableWidth": 1920,
+    "pageWidth": 1920,
+    "overflow": false,
+    "headerBlur": "none"
+  },
+  "formPassed": true,
+  "menuPassed": true,
+  "assets": [
+    {
+      "src": "/assets/logo.svg",
+      "loaded": true,
+      "width": 112,
+      "height": 28
+    },
+    {
+      "src": "/assets/chevron.svg",
+      "loaded": true,
+      "width": 12,
+      "height": 12
+    },
+    {
+      "src": "/assets/chevron.svg",
+      "loaded": true,
+      "width": 12,
+      "height": 12
+    },
+    {
+      "src": "/assets/chevron.svg",
+      "loaded": true,
+      "width": 12,
+      "height": 12
+    },
+    {
+      "src": "/assets/chevron.svg",
+      "loaded": true,
+      "width": 12,
+      "height": 12
+    },
+    {
+      "src": "/assets/language.svg",
+      "loaded": true,
+      "width": 24,
+      "height": 24
+    },
+    {
+      "src": "/assets/chevron.svg",
+      "loaded": true,
+      "width": 12,
+      "height": 12
+    },
+    {
+      "src": "/assets/regulation-shield.png",
+      "loaded": true,
+      "width": 669.328125,
+      "height": 678.984375
+    }
+  ],
+  "brokenImages": []
+}
