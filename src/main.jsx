@@ -12,7 +12,7 @@ const assets = {
 };
 const navigation = ['Trading', 'Company', 'Resources', 'Partnership'];
 const menus = {
-  Trading: ['交易市场', '交易平台', '账户类型'],
+  Trading: ['交易市场111', '交易平台111', '账户类型'],
   Company: ['牌照与监管', '关于 QUBE', '联系我们'],
   Resources: ['交易学院', '市场资讯', '交易工具'],
   Partnership: ['合作伙伴', '经纪商计划'],
